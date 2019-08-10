@@ -49,7 +49,7 @@ namespace kotsplay
             }
             catch (Exception)
             {
-                Toast.MakeText(this, "Ошибка загрузки файла <3", ToastLength.Short);
+                Toast.MakeText(this, "Ошибка загрузки файла", ToastLength.Short);
             }
         }
     }
