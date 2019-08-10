@@ -1,11 +1,20 @@
-﻿<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:opencv="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="fill">
 
     <org.opencv.android.JavaCameraView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/image_manipulations_id" />
+        android:visibility="gone"
+        opencv:show_fps="true"
+        android:id="@+id/image_manipulations_id"
+        android:keepScreenOn="true"
+        android:focusable="auto"
+        android:layout_gravity="fill" />
 
 </LinearLayout>

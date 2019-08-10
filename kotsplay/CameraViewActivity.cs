@@ -15,6 +15,7 @@ using Android.Util;
 using Org.Opencv.Imgproc;
 using Size = Org.Opencv.Core.Size;
 using Java.Util;
+using Org.Opencv;
 
 namespace kotsplay.camera
 {
@@ -70,8 +71,11 @@ namespace kotsplay.camera
         {
             Log.Info(TAG, "called onCreate");
             base.OnCreate(savedInstanceState);
+
             Window.AddFlags(WindowManagerFlags.KeepScreenOn);
+            RequestWindowFeature(WindowFeatures.NoTitle);
             SetContentView(Resource.Layout.activity_image_manipulations);
+            RequestedOrientation = Android.Content.PM.ScreenOrientation.Landscape;
 
             //Check if permission is already granted
             if (Android.Support.V4.Content.ContextCompat.CheckSelfPermission(this,
@@ -103,6 +107,11 @@ namespace kotsplay.camera
             mOpenCvCameraView.Visibility = ViewStates.Visible;
             mOpenCvCameraView.SetCvCameraViewListener2(this);
             mLoaderCallback = new Callback(this, mOpenCvCameraView);
+
+            // Force fullscreen
+            Window.DecorView.SystemUiVisibility = Android.Views.StatusBarVisibility.Hidden;
+            Window.AddFlags(WindowManagerFlags.Fullscreen);
+            Window.ClearFlags(WindowManagerFlags.ForceNotFullscreen);
         }
 
         protected override void OnPause()
