@@ -1,21 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Runtime;
 using Android.Views;
-using Android.Widget;
 using Org.Opencv.Android;
 using Org.Opencv.Core;
 using Android.Util;
 using Org.Opencv.Imgproc;
 using Size = Org.Opencv.Core.Size;
 using Java.Util;
-using Org.Opencv;
 
 namespace kotsplay.camera
 {
@@ -236,6 +231,20 @@ namespace kotsplay.camera
             switch (CameraViewActivity.viewMode)
             {
                 case CameraViewActivity.VIEW_MODE_RGBA:
+                    Point center = new Point(100, 200);
+                    int radius = 100;
+                    Scalar color = new Scalar(0, 255, 0);
+
+                    // canvas, center, radius, color, linewidth
+                    Imgproc.Circle(rgba, center, radius, color, 5);
+
+                    center.X = 400;
+                    center.Y = 700;
+
+                    color.Val[0] = 255;
+
+                    // canvas, string, left up, font id, size, color
+                    Imgproc.PutText(rgba, "Surprise,\nmotherfucker!", center, 1, 4, color, 16);
                     break;
 
                 case CameraViewActivity.VIEW_MODE_HIST:
