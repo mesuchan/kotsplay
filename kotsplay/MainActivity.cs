@@ -2,6 +2,9 @@
 using Android.Widget;
 using Android.OS;
 using Android.Support.V7.App;
+using Plugin.FilePicker;
+using Plugin.FilePicker.Abstractions;
+using System;
 
 namespace kotsplay
 {
@@ -30,13 +33,24 @@ namespace kotsplay
 
         private void ListViewItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
-            Toast.MakeText(this, "item clicked", ToastLength.Short);
             //Переход на активити с камерой и подгрузка книги рецептов
         }
 
-        private void ButtonClick(object sender, System.EventArgs e)
+        private async void ButtonClick(object sender, EventArgs e)
         {
-            //Переход на активити с камерой и подгрузка новой книги рецептов
+            try
+            {
+                FileData fileData = await CrossFilePicker.Current.PickFile();
+                if (fileData == null)
+                    return;
+
+                string fileName = fileData.FileName;
+                string contents = System.Text.Encoding.UTF8.GetString(fileData.DataArray);
+            }
+            catch (Exception)
+            {
+                Toast.MakeText(this, "Ошибка загрузки файла <3", ToastLength.Short);
+            }
         }
     }
 }
