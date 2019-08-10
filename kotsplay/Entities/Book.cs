@@ -6,26 +6,26 @@ namespace kotsplay.Entities
     {
         public List<Recipe> Recipes { get; private set; }
 
-        public Book(string name, List<Ingridient> ingridients, List<Recipe> recipes)
+        public Book(string name, List<Ingredient> ingredients, List<Recipe> recipes)
         {
             Recipes = recipes;
-            foreach (var ingridient in ingridients)
+            foreach (var ingredient in ingredients)
             {
-                if (!this.ingridients.ContainsKey(ingridient.Id))
-                    this.ingridients.Add(ingridient.Id, ingridient);
+                if (!this.ingredients.ContainsKey(ingredient.Id))
+                    this.ingredients.Add(ingredient.Id, ingredient);
             }
             foreach (var recipe in recipes)
             {
-                if (!this.ingridients.ContainsKey(recipe.Id))
-                    this.ingridients.Add(recipe.Id, recipe);
+                if (!this.ingredients.ContainsKey(recipe.Id))
+                    this.ingredients.Add(recipe.Id, recipe);
             }
         }
 
-        public BaseIngridient GetIngridient(int id)
+        public BaseIngredient GetIngredient(int id)
         {
-            return ingridients.GetValueOrDefault(id);
+            return ingredients.GetValueOrDefault(id);
         }
 
-        private readonly Dictionary<int, BaseIngridient> ingridients = new Dictionary<int, BaseIngridient>();
+        private readonly Dictionary<int, BaseIngredient> ingredients = new Dictionary<int, BaseIngredient>();
     }
 }

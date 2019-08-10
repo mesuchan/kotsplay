@@ -2,8 +2,8 @@
 
 namespace kotsplay.Entities
 {
-    public class Recipe : BaseIngridient
+    public class Recipe : BaseIngredient
     {
-        public List<BaseIngridient> Ingridients { get; set; }
+        public List<BaseIngredient> Ingridients { get; set; }
     }
 }

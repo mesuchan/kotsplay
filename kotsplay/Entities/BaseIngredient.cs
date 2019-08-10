@@ -1,6 +1,6 @@
 ﻿namespace kotsplay.Entities
 {
-    public abstract class BaseIngridient
+    public abstract class BaseIngredient
     {
         public int Id { get; set; }
         public string Name { get; set; }
