@@ -43,8 +43,6 @@ namespace kotsplay.Entities.Parsers
                     }
                 }
             }
-            if (reader.Name != BookTag)  // closing tag
-                throw new XmlException();
             return new Book(name, ingredients, recipes);
         }
 

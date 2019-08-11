@@ -6,10 +6,13 @@ namespace kotsplay.Entities
 {
     public class Book
     {
+        public string Name { get; private set; }
+
         public List<Recipe> Recipes { get; private set; }
 
         public Book(string name, List<Ingredient> ingredients, List<Recipe> recipes)
         {
+            Name = name;
             Recipes = recipes;
             foreach (var ingredient in ingredients)
             {
@@ -32,7 +35,13 @@ namespace kotsplay.Entities
         {
             var parser = new BookXmlParser(new IngredientXmlParser(), new RecipeXmlParser());
             var reader = XmlReader.Create(path);
+            reader.ReadToFollowing(BookXmlParser.BookTag);
             return parser.Parse(reader);
+        }
+
+        public override string ToString()
+        {
+            return Name;
         }
 
         private readonly Dictionary<int, BaseIngredient> ingredients = new Dictionary<int, BaseIngredient>();

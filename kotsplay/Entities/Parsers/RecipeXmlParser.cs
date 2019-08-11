@@ -9,7 +9,7 @@ namespace kotsplay.Entities.Parsers
         public const string RecipeTag = "Recipe";
         public const string NameAttribute = "name";
         public const string IdAttribute = "id";
-        public const string IngridientIdTag = "IngridientId";
+        public const string IngredientIdTag = "IngredientId";
 
         public Recipe Parse(XmlReader reader, Dictionary<int, BaseIngredient> baseIngredients)
         {
@@ -22,21 +22,21 @@ namespace kotsplay.Entities.Parsers
                 var ingredients = new List<BaseIngredient>();
                 while (reader.Read() && reader.Name != RecipeTag)
                 {
-                    if (reader.Name == IngridientIdTag)
+                    if (reader.IsStartElement())
                     {
-                        var ingredientId = reader.ReadContentAsInt();
-                        if (!baseIngredients.ContainsKey(ingredientId))
+                        if (reader.Name == IngredientIdTag)
+                        {
+                            var ingredientId = reader.ReadElementContentAsInt();
+                            if (!baseIngredients.ContainsKey(ingredientId))
+                                throw new ParseException();
+                            ingredients.Add(baseIngredients[ingredientId]);
+                        }
+                        else
+                        {
                             throw new ParseException();
-                        ingredients.Add(baseIngredients[ingredientId]);
-                        reader.ReadEndElement();
-                    }
-                    else
-                    {
-                        throw new ParseException();
+                        }
                     }
                 }
-                if (reader.Name != RecipeTag)  // closing tag
-                    throw new XmlException();
                 return new Recipe(id, name, ingredients);
             }
             catch (FormatException)
