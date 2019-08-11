@@ -12,7 +12,7 @@
         android:layout_height="fill_parent"
         android:visibility="gone"
         opencv:show_fps="true"
-        android:id="@+id/image_manipulations_id"
+        android:id="@+id/cameraview_id"
         android:keepScreenOn="true"
         android:focusable="auto"
         android:layout_gravity="fill" />

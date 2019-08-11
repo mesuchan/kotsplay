@@ -64,7 +64,7 @@ namespace kotsplay.camera
 
             Window.AddFlags(WindowManagerFlags.KeepScreenOn);
             RequestWindowFeature(WindowFeatures.NoTitle);
-            SetContentView(Resource.Layout.activity_image_manipulations);
+            SetContentView(Resource.Layout.activity_cameraview);
             RequestedOrientation = Android.Content.PM.ScreenOrientation.Landscape;
 
             //Check if permission is already granted
@@ -93,9 +93,9 @@ namespace kotsplay.camera
                 }
             }
 
-            mOpenCvCameraView = FindViewById<CameraBridgeViewBase>(Resource.Id.image_manipulations_id);
+            mOpenCvCameraView = FindViewById<CameraBridgeViewBase>(Resource.Id.cameraview_id);
             mOpenCvCameraView.Visibility = ViewStates.Visible;
-            mOpenCvCameraView.SetCvCameraViewListener2(this);
+            mOpenCvCameraView.SetCvCameraViewListener(this);
             mLoaderCallback = new Callback(this, mOpenCvCameraView);
 
             // Force fullscreen
