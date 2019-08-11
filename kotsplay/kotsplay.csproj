@@ -60,7 +60,8 @@
     <Reference Include="Mono.Android" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CameraViewActivity.cs" />
+    <Compile Include="IngredientsActivity.cs" />\
+    <Compile Include="CameraViewActivity.cs" />\
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -103,6 +104,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <AndroidResource Include="Resources\layout\activity_ingredients.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\menu\menu.xml" />
     <AndroidResource Include="Resources\layout\activity_cameraview.xml">
       <Generator>MSBuild:UpdateGeneratedFiles</Generator>
     </AndroidResource>
