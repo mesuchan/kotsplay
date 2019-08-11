@@ -1,7 +1,8 @@
 ﻿using Android.App;
-using Android.Widget;
 using Android.OS;
 using Android.Support.V7.App;
+using Android.Widget;
+using kotsplay.camera;
 using Plugin.FilePicker;
 using Plugin.FilePicker.Abstractions;
 using System;
@@ -34,6 +35,7 @@ namespace kotsplay
         private void ListViewItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
             //Переход на активити с камерой и подгрузка книги рецептов
+            StartActivity(typeof(CameraViewActivity));
         }
 
         private async void ButtonClick(object sender, EventArgs e)
