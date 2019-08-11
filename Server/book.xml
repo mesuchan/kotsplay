@@ -1,0 +1,33 @@
+<Book name="Книга магических рецептов">
+    <Ingredient id="6" name="matricaria chamomilla"/>
+    <Ingredient id="7" name="chamaedorea"/>
+    <Ingredient id="8" name="crasulla"/>
+    <Ingredient id="9" name="sedum"/>
+    <Ingredient id="10" name="echeveria"/>
+    <Ingredient id="11" name="sempervivum"/>
+    <Ingredient id="12" name="sorex"/>
+    <Ingredient id="13" name="solutio"/>
+    <Ingredient id="14" name="cauda"/>
+    <Ingredient id="15" name="spiritus"/>
+ 
+    <Recipe id="16" name="Sleep potion">
+        <IngredientId> 12 </IngredientId>
+        <IngredientId> 14 </IngredientId>
+        <IngredientId> 13 </IngredientId>
+    </Recipe>
+ 
+    <Recipe id="17" name="Heal potion">
+        <IngredientId> 13 </IngredientId>
+        <IngredientId> 14 </IngredientId>
+        <IngredientId> 15 </IngredientId>
+    </Recipe>
+ 
+    <Recipe id="18" name="Poison">
+        <IngredientId> 8 </IngredientId>
+        <IngredientId> 9 </IngredientId>
+        <IngredientId> 10 </IngredientId>
+        <IngredientId> 11 </IngredientId>
+        <IngredientId> 12 </IngredientId>
+    </Recipe>
+ 
+</Book>

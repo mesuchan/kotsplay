@@ -11,6 +11,12 @@ using Android.Util;
 using Org.Opencv.Imgproc;
 using Size = Org.Opencv.Core.Size;
 using Java.Util;
+using System.Collections.Generic;
+using System.Net;
+using System.Text;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Android.Widget;
 
 namespace kotsplay.camera
 {
@@ -57,6 +63,8 @@ namespace kotsplay.camera
         public static int viewMode = VIEW_MODE_RGBA;
         private Callback mLoaderCallback;
 
+        private Mat rgba;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             Log.Info(TAG, "called onCreate");
@@ -102,6 +110,16 @@ namespace kotsplay.camera
             Window.DecorView.SystemUiVisibility = Android.Views.StatusBarVisibility.Hidden;
             Window.AddFlags(WindowManagerFlags.Fullscreen);
             Window.ClearFlags(WindowManagerFlags.ForceNotFullscreen);
+
+            Button button = FindViewById<Button>(Resource.Id.buttonShot);
+            button.Click += (sender, args) =>
+            {
+                using (var client = new HttpClient())
+                {
+                    var content = new ByteArrayContent(Encoding.ASCII.GetBytes(rgba.Dump()));
+                    var t = client.PostAsync("http://192.168.43.151:5000", content);
+                }
+            };
         }
 
         protected override void OnPause()
@@ -117,7 +135,7 @@ namespace kotsplay.camera
             if (!OpenCVLoader.InitDebug())
             {
                 Log.Debug(TAG, "Internal OpenCV library not found. Using OpenCV Manager for initialization");
-                OpenCVLoader.InitAsync(OpenCVLoader.OpencvVersion300, this, mLoaderCallback);
+                OpenCVLoader.InitAsync(OpenCVLoader.OpencvVersion310, this, mLoaderCallback);
             }
             else
             {
@@ -209,139 +227,27 @@ namespace kotsplay.camera
 
         public Mat OnCameraFrame(CameraBridgeViewBase.ICvCameraViewFrame inputFrame)
         {
-            Mat rgba = inputFrame.Rgba();
+            rgba = inputFrame.Rgba();
             Size sizeRgba = rgba.Size();
-
-            Mat rgbaInnerWindow;
 
             int rows = (int)sizeRgba.Height;
             int cols = (int)sizeRgba.Width;
+            //client.UploadDataAsync(new Uri("http://192.168.43.151:5000"), Encoding.ASCII.GetBytes(rgba.Dump()));
 
-            int left = cols / 8;
-            int top = rows / 8;
+            Point center = new Point(100, 200);
+            int radius = 100;
+            Scalar color = new Scalar(0, 255, 0);
 
-            int width = cols * 3 / 4;
-            int height = rows * 3 / 4;
+            // canvas, center, radius, color, linewidth
+            Imgproc.Circle(rgba, center, radius, color, 5);
 
-            switch (CameraViewActivity.viewMode)
-            {
-                case CameraViewActivity.VIEW_MODE_RGBA:
-                    Point center = new Point(100, 200);
-                    int radius = 100;
-                    Scalar color = new Scalar(0, 255, 0);
+            center.X = 400;
+            center.Y = 700;
 
-                    // canvas, center, radius, color, linewidth
-                    Imgproc.Circle(rgba, center, radius, color, 5);
+            color.Val[0] = 255;
 
-                    center.X = 400;
-                    center.Y = 700;
-
-                    color.Val[0] = 255;
-
-                    // canvas, string, left up, font id, size, color
-                    Imgproc.PutText(rgba, "Surprise,\nmotherfucker!", center, 1, 4, color, 16);
-                    break;
-
-                case CameraViewActivity.VIEW_MODE_HIST:
-                    Mat hist = new Mat();
-                    int thikness = (int)(sizeRgba.Width / (mHistSizeNum + 10) / 5);
-                    if (thikness > 5) thikness = 5;
-                    int offset = (int)((sizeRgba.Width - (5 * mHistSizeNum + 4 * 10) * thikness) / 2);
-                    // RGB
-                    for (int c = 0; c < 3; c++)
-                    {
-                        Imgproc.CalcHist(Arrays.AsList(rgba).Cast<Mat>().ToList(), mChannels[c], mMat0, hist, mHistSize, mRanges);
-                        Core.Normalize(hist, hist, sizeRgba.Height / 2, 0, Core.NormInf);
-                        hist.Get(0, 0, mBuff);
-                        for (int h = 0; h < mHistSizeNum; h++)
-                        {
-                            mP1.X = mP2.X = offset + (c * (mHistSizeNum + 10) + h) * thikness;
-                            mP1.Y = sizeRgba.Height - 1;
-                            mP2.Y = mP1.Y - 2 - (int)mBuff[h];
-                            Imgproc.Line(rgba, mP1, mP2, mColorsRGB[c], thikness);
-                        }
-                    }
-                    // Value and Hue
-                    Imgproc.CvtColor(rgba, mIntermediateMat, Imgproc.ColorRgb2hsvFull);
-                    // Value
-                    Imgproc.CalcHist(Arrays.AsList(mIntermediateMat).Cast<Mat>().ToList(), mChannels[2], mMat0, hist, mHistSize, mRanges);
-                    Core.Normalize(hist, hist, sizeRgba.Height / 2, 0, Core.NormInf);
-                    hist.Get(0, 0, mBuff);
-                    for (int h = 0; h < mHistSizeNum; h++)
-                    {
-                        mP1.X = mP2.X = offset + (3 * (mHistSizeNum + 10) + h) * thikness;
-                        mP1.Y = sizeRgba.Height - 1;
-                        mP2.Y = mP1.Y - 2 - (int)mBuff[h];
-                        Imgproc.Line(rgba, mP1, mP2, mWhilte, thikness);
-                    }
-                    // Hue
-                    Imgproc.CalcHist(Arrays.AsList(mIntermediateMat).Cast<Mat>().ToList(), mChannels[0], mMat0, hist, mHistSize, mRanges);
-                    Core.Normalize(hist, hist, sizeRgba.Height / 2, 0, Core.NormInf);
-                    hist.Get(0, 0, mBuff);
-                    for (int h = 0; h < mHistSizeNum; h++)
-                    {
-                        mP1.X = mP2.X = offset + (4 * (mHistSizeNum + 10) + h) * thikness;
-                        mP1.Y = sizeRgba.Height - 1;
-                        mP2.Y = mP1.Y - 2 - (int)mBuff[h];
-                        Imgproc.Line(rgba, mP1, mP2, mColorsHue[h], thikness);
-                    }
-                    break;
-
-                case CameraViewActivity.VIEW_MODE_CANNY:
-                    rgbaInnerWindow = rgba.Submat(top, top + height, left, left + width);
-                    Imgproc.Canny(rgbaInnerWindow, mIntermediateMat, 80, 90);
-                    Imgproc.CvtColor(mIntermediateMat, rgbaInnerWindow, Imgproc.ColorGray2bgra, 4);
-                    rgbaInnerWindow.Release();
-                    break;
-
-                case CameraViewActivity.VIEW_MODE_SOBEL:
-                    Mat gray = inputFrame.Gray();
-                    Mat grayInnerWindow = gray.Submat(top, top + height, left, left + width);
-                    rgbaInnerWindow = rgba.Submat(top, top + height, left, left + width);
-                    Imgproc.Sobel(grayInnerWindow, mIntermediateMat, CvType.Cv8u, 1, 1);
-                    Core.ConvertScaleAbs(mIntermediateMat, mIntermediateMat, 10, 0);
-                    Imgproc.CvtColor(mIntermediateMat, rgbaInnerWindow, Imgproc.ColorGray2bgra, 4);
-                    grayInnerWindow.Release();
-                    rgbaInnerWindow.Release();
-                    break;
-
-                case CameraViewActivity.VIEW_MODE_SEPIA:
-                    rgbaInnerWindow = rgba.Submat(top, top + height, left, left + width);
-                    Core.Transform(rgbaInnerWindow, rgbaInnerWindow, mSepiaKernel);
-                    rgbaInnerWindow.Release();
-                    break;
-
-                case CameraViewActivity.VIEW_MODE_ZOOM:
-                    Mat zoomCorner = rgba.Submat(0, rows / 2 - rows / 10, 0, cols / 2 - cols / 10);
-                    Mat mZoomWindow = rgba.Submat(rows / 2 - 9 * rows / 100, rows / 2 + 9 * rows / 100, cols / 2 - 9 * cols / 100, cols / 2 + 9 * cols / 100);
-                    Imgproc.Resize(mZoomWindow, zoomCorner, zoomCorner.Size());
-                    Size wsize = mZoomWindow.Size();
-                    Imgproc.Rectangle(mZoomWindow, new Point(1, 1), new Point(wsize.Width - 2, wsize.Height - 2), new Scalar(255, 0, 0, 255), 2);
-                    zoomCorner.Release();
-                    mZoomWindow.Release();
-                    break;
-
-                case CameraViewActivity.VIEW_MODE_PIXELIZE:
-                    rgbaInnerWindow = rgba.Submat(top, top + height, left, left + width);
-                    Imgproc.Resize(rgbaInnerWindow, mIntermediateMat, mSize0, 0.1, 0.1, Imgproc.InterNearest);
-                    Imgproc.Resize(mIntermediateMat, rgbaInnerWindow, rgbaInnerWindow.Size(), 0.0, 0.0, Imgproc.InterNearest);
-                    rgbaInnerWindow.Release();
-                    break;
-
-                case CameraViewActivity.VIEW_MODE_POSTERIZE:
-                    /*
-                    Imgproc.cvtColor(rgbaInnerWindow, mIntermediateMat, Imgproc.COLOR_RGBA2RGB);
-                    Imgproc.pyrMeanShiftFiltering(mIntermediateMat, mIntermediateMat, 5, 50);
-                    Imgproc.cvtColor(mIntermediateMat, rgbaInnerWindow, Imgproc.COLOR_RGB2RGBA);
-                    */
-                    rgbaInnerWindow = rgba.Submat(top, top + height, left, left + width);
-                    Imgproc.Canny(rgbaInnerWindow, mIntermediateMat, 80, 90);
-                    rgbaInnerWindow.SetTo(new Scalar(0, 0, 0, 255), mIntermediateMat);
-                    Core.ConvertScaleAbs(rgbaInnerWindow, mIntermediateMat, 1.0 / 16, 0);
-                    Core.ConvertScaleAbs(mIntermediateMat, rgbaInnerWindow, 16, 0);
-                    rgbaInnerWindow.Release();
-                    break;
-            }
+            // canvas, string, left up, font id, size, color
+            Imgproc.PutText(rgba, "Surprise,\nmotherfucker!", center, 1, 4, color, 16);
 
             return rgba;
         }
