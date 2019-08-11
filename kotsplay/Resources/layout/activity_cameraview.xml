@@ -16,5 +16,13 @@
         android:keepScreenOn="true"
         android:focusable="auto"
         android:layout_gravity="fill" />
+    <Button
+        android:text="Создать"
+        android:layout_height="wrap_content"
+        android:id="@+id/button"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_gravity="right"
+        android:scrollIndicators="none" />
 
 </LinearLayout>
