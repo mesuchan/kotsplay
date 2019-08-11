@@ -17,7 +17,7 @@ namespace kotsplay.camera
     [Activity(Label = "CameraViewActivity")]
     public class CameraViewActivity : Activity, Org.Opencv.Android.CameraBridgeViewBase.ICvCameraViewListener2
     {
-        public const string TAG = "OCVSample::Activity";
+        public const string TAG = "CameraViewActivity::Activity";
 
         public const int VIEW_MODE_RGBA = 0;
         public const int VIEW_MODE_HIST = 1;
@@ -56,11 +56,6 @@ namespace kotsplay.camera
 
         public static int viewMode = VIEW_MODE_RGBA;
         private Callback mLoaderCallback;
-
-        public CameraViewActivity()
-        {
-            Log.Info(TAG, "Instantiated new " + GetType().ToString());
-        }
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
