@@ -60,6 +60,14 @@
     <Reference Include="Mono.Android" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\BaseIngredient.cs" />
+    <Compile Include="Entities\Book.cs" />
+    <Compile Include="Entities\Ingredient.cs" />
+    <Compile Include="Entities\Parsers\BookXmlParser.cs" />
+    <Compile Include="Entities\Parsers\IngredientXmlParser.cs" />
+    <Compile Include="Entities\Parsers\ParseException.cs" />
+    <Compile Include="Entities\Parsers\RecipeXmlParser.cs" />
+    <Compile Include="Entities\Recipe.cs" />
     <Compile Include="IngredientsActivity.cs" />
     <Compile Include="CameraViewActivity.cs" />
     <Compile Include="MainActivity.cs" />
