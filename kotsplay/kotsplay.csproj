@@ -96,6 +96,12 @@
       <Version>2.0.135</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\opencv\opencv.csproj">
+      <Project>{d2737e13-f960-46d2-a246-4e9eae4965f0}</Project>
+      <Name>opencv</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
 		Other similar extension points exist, see Microsoft.Common.targets.
