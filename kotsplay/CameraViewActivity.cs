@@ -146,6 +146,9 @@ namespace kotsplay.camera
             mItemPreviewZoom = menu.Add("Zoom");
             mItemPreviewPixelize = menu.Add("Pixelize");
             mItemPreviewPosterize = menu.Add("Posterize");
+
+            MenuInflater.Inflate(Resource.Menu.menu, menu);
+
             return true;
         }
 
