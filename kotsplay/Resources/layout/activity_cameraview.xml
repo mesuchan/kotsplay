@@ -16,5 +16,10 @@
         android:keepScreenOn="true"
         android:focusable="auto"
         android:layout_gravity="fill" />
+    <Button
+        android:id="@+id/buttonShot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text = "."/>
 
 </LinearLayout>
