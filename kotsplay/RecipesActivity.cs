@@ -7,8 +7,9 @@ using kotsplay.camera;
 
 namespace kotsplay
 {
-    [Activity(Label = "IngredientsActivity")]
-    public class IngredientsActivity : AppCompatActivity
+    //[Activity(Label = "RecipesActivity")]
+    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
+    public class RecipesActivity : AppCompatActivity
     {
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
@@ -20,8 +21,8 @@ namespace kotsplay
         {
             Toast.MakeText(this, item.ItemId, ToastLength.Long);
 
-            if (item.ItemId == Resource.Id.menu_recipes)
-                StartActivity(typeof(RecipesActivity));
+            if (item.ItemId == Resource.Id.menu_ingredients)
+                StartActivity(typeof(IngredientsActivity));
 
             if (item.ItemId == Resource.Id.menu_exit)
                 StartActivity(typeof(CameraViewActivity));
@@ -33,11 +34,11 @@ namespace kotsplay
         {
             base.OnCreate(savedInstanceState);
             // Set our view from the "main" layout resource
-            SetContentView(Resource.Layout.activity_ingredients);
+            SetContentView(Resource.Layout.activity_recipes);
 
             string[] Items = new string[] { };
 
-            ListView listView = FindViewById<ListView>(Resource.Id.listViewIngredients);
+            ListView listView = FindViewById<ListView>(Resource.Id.listViewRecipes);
             listView.Adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, Items);
         }
     }
