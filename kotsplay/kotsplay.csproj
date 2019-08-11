@@ -60,8 +60,8 @@
     <Reference Include="Mono.Android" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IngredientsActivity.cs" />\
-    <Compile Include="CameraViewActivity.cs" />\
+    <Compile Include="IngredientsActivity.cs" />
+    <Compile Include="CameraViewActivity.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
