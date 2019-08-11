@@ -7,8 +7,7 @@ using kotsplay.camera;
 
 namespace kotsplay
 {
-    //[Activity(Label = "RecipesActivity")]
-    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
+    [Activity(Label = "RecipesActivity")]
     public class RecipesActivity : AppCompatActivity
     {
         public override bool OnCreateOptionsMenu(IMenu menu)
