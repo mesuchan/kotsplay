@@ -11,10 +11,12 @@ using Android.Util;
 using Org.Opencv.Imgproc;
 using Size = Org.Opencv.Core.Size;
 using Java.Util;
+using Android.Widget;
 
 namespace kotsplay.camera
 {
     [Activity(Label = "CameraViewActivity")]
+
     public class CameraViewActivity : Activity, Org.Opencv.Android.CameraBridgeViewBase.ICvCameraViewListener2
     {
         public const string TAG = "CameraViewActivity::Activity";
@@ -144,6 +146,9 @@ namespace kotsplay.camera
             mItemPreviewZoom = menu.Add("Zoom");
             mItemPreviewPixelize = menu.Add("Pixelize");
             mItemPreviewPosterize = menu.Add("Posterize");
+
+            MenuInflater.Inflate(Resource.Menu.menu, menu);
+
             return true;
         }
 
@@ -166,6 +171,19 @@ namespace kotsplay.camera
                 viewMode = VIEW_MODE_PIXELIZE;
             else if (item == mItemPreviewPosterize)
                 viewMode = VIEW_MODE_POSTERIZE;
+
+            //Тут
+            Toast.MakeText(this, item.ItemId, ToastLength.Long);
+
+            if (item.ItemId == Resource.Id.menu_ingredients)
+                StartActivity(typeof(IngredientsActivity));
+
+            if (item.ItemId == Resource.Id.menu_recipes)
+                StartActivity(typeof(RecipesActivity));
+
+            if (item.ItemId == Resource.Id.menu_exit)
+                StartActivity(typeof(MainActivity));
+
             return true;
         }
 
